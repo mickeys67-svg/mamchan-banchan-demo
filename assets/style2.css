@@ -283,3 +283,14 @@ tr.fresh{animation:flashRow 2.4s ease}
 .order-steps{display:flex;gap:4px;margin:10px 16px 0}
 .order-steps .os{flex:1;text-align:center;font-size:10px;font-weight:700;color:var(--faint);background:#fff;border:1px solid var(--line-2);border-radius:9px;padding:7px 2px}
 .order-steps .os b{color:var(--green-d)}
+
+/* ===================================================================
+   메뉴 사진 (이모지 → 실사진)
+   =================================================================== */
+.cell .emi{width:26px;height:26px;border-radius:7px;object-fit:cover;display:block;margin-top:2px;background:#fbeee0}
+.dish-hero{position:relative;overflow:hidden}
+.dish-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.dish-hero .fav{z-index:2}
+.pcard .pimg{width:100%;height:76px;border-radius:11px;object-fit:cover;display:block;margin-top:2px;background:#fbeee0}
+.cline .cimg{width:50px;height:50px;border-radius:14px;object-fit:cover;flex-shrink:0;background:#fbeee0}
+.ocard .oitem .oimg{width:48px;height:48px;border-radius:13px;object-fit:cover;flex-shrink:0;background:#fbeee0}

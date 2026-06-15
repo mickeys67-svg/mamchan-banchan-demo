@@ -49,6 +49,24 @@ const REVIEWS = [
   { n: '박*호', s: '★★★★☆', t: '국까지 포함이라 진짜 편해요. 배송도 빨라요 👍' },
 ];
 
+/* ---------- 메뉴 사진 (키워드 기반 실사진 + 이모지 폴백) ---------- */
+const DISH_IMG = {
+  '제육볶음': 'pork', '고등어무조림': 'mackerel', '소불고기': 'bulgogi', '잡채': 'japchae',
+  '춘천식 닭갈비': 'dakgalbi', '코다리조림': 'fish', '돼지김치찜': 'kimchi', '갈비찜': 'galbi',
+  '간장새우장': 'shrimp', '두부조림': 'tofu', '안동찜닭': 'chicken', '갈치조림': 'fish',
+  'LA갈비': 'bbq', '간장계란장조림': 'egg', '두부김치': 'tofu', '낙지볶음': 'octopus',
+  '돼지불고기': 'bulgogi', '닭볶음탕': 'chicken', '장조림': 'beef', '동태조림': 'fish'
+};
+function photoURL(name) {
+  const main = String(name).replace(/ SET$/, '');
+  const kw = (DISH_IMG[main] ? DISH_IMG[main] + ',' : '') + 'korean,food';
+  let lock = 0; for (let i = 0; i < main.length; i++) lock = (lock + main.charCodeAt(i)) % 997;
+  return `https://loremflickr.com/400/300/${kw}?lock=${lock + 1}`;
+}
+function emojiSVG(f) { return 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#fbeee0"/><text x="50" y="66" font-size="54" text-anchor="middle">${f}</text></svg>`); }
+function imgTagRaw(name, emoji, cls) { return `<img class="${cls}" src="${photoURL(name)}" alt="${name}" loading="lazy" onerror="this.onerror=null;this.src='${emojiSVG(emoji)}'">`; }
+function imgTag(m, cls) { return imgTagRaw(m.n, m.f, cls); }
+
 function basePoolFor(y, m, day) { const dow = new Date(y, m, day).getDay(); if (dow === 0 || dow === 6) return null; return POOL[(y * 372 + m * 31 + day) % POOL.length]; }
 function baseCapFor(y, m, day) { const s = (y * 13 + m * 7 + day * 17); const limit = 60 + (s % 5) * 10; let o = (s * 29) % (limit + 12); if (o > limit) o = limit; return { limit, ordered: o }; }
 function pickSides(seed) { const out = []; let i = seed % SIDES.length; while (out.length < 3) { const s = SIDES[i % SIDES.length]; if (!out.includes(s)) out.push(s); i++; } return out; }
@@ -159,7 +177,7 @@ function buildCal() {
     else if (st === 'hot') chip = `<div class="chip hot">${limitOf(viewY, viewM, day) - orderedOf(viewY, viewM, day)}개</div>`;
     else if (st === 'out') chip = '<div class="chip out">마감</div>';
     else if (st === 'off') chip = '<div class="offtxt">휴무</div>';
-    cell.innerHTML = `<div class="d">${day}</div>` + (m && m.n ? `<div class="em">${m.f}</div><div class="nm">${m.n}</div>` : '') + chip;
+    cell.innerHTML = `<div class="d">${day}</div>` + (m && m.n ? `${imgTag(m, 'emi')}<div class="nm">${m.n}</div>` : '') + chip;
     if (st === 'ok' || st === 'hot') { cell.onclick = () => openSheet(day); cell.tabIndex = 0; cell.setAttribute('role', 'button'); cell.onkeydown = e => { if (e.key === 'Enter') openSheet(day); }; }
     else if (st === 'out') cell.onclick = () => toast('😢 해당 날짜는 마감되었어요');
     g.appendChild(cell);
@@ -175,7 +193,7 @@ function openSheet(day) {
   const m = menuOf(viewY, viewM, day), dow = DOW[new Date(viewY, viewM, day).getDay()];
   document.getElementById('shDate').textContent = `${viewM + 1}월 ${day}일 (${dow}) 배송 · STEP 3·4`;
   document.getElementById('shTitle').textContent = m.main + ' SET';
-  document.getElementById('shIco').textContent = m.f;
+  const hero = document.getElementById('shHeroImg'); hero.src = photoURL(m.n); hero.onerror = function () { this.onerror = null; this.src = emojiSVG(m.f); };
   document.getElementById('shDesc').textContent = m.d;
   document.getElementById('shTags').innerHTML = (m.tags || []).map(t => `<span class="tg">${t}</span>`).join('') + `<span class="tg gray">🔥 ${m.kcal}kcal</span><span class="tg gray">성인 2.5~3인</span>`;
   document.getElementById('shSet').innerHTML = `<div class="sc"><span class="k">메인반찬</span><span class="v">${m.f} ${m.main}</span></div><div class="sc"><span class="k">국·찌개</span><span class="v">${m.soup}</span></div><div class="sc"><span class="k">밑반찬 3종</span><span class="v">${m.sides.join(' · ')}</span></div>`;
@@ -209,7 +227,7 @@ function renderCart() {
   const list = document.getElementById('cartList');
   document.getElementById('cartCheckoutWrap').style.display = cart.length ? 'block' : 'none';
   if (!cart.length) { list.innerHTML = `<div class="cart-empty"><span class="big">🗓️</span>담은 SET이 없어요.<br>달력에서 원하는 배송일을 선택해 보세요</div>`; document.getElementById('cartFoot').style.display = 'none'; return; }
-  list.innerHTML = cart.map((it, i) => `<div class="cline"><div class="em">${it.ico}</div><div class="info"><div class="dt">${it.m + 1}/${it.day} (${DOW[new Date(it.y, it.m, it.day).getDay()]}) 배송</div><b>${it.name}</b><p>${it.opt}</p><div class="mini-step"><button onclick="cartQty(${i},-1)" aria-label="감소">−</button><b>${it.qty}</b><button onclick="cartQty(${i},1)" aria-label="증가">+</button></div></div><div class="right"><div class="pr">${WON(cartItemPrice(it))}</div><button onclick="cartDel(${i})" aria-label="삭제" style="border:0;background:none;color:#bcc4be;font-size:17px;margin-top:8px">✕</button></div></div>`).join('');
+  list.innerHTML = cart.map((it, i) => `<div class="cline">${imgTagRaw(it.name, it.ico, 'cimg')}<div class="info"><div class="dt">${it.m + 1}/${it.day} (${DOW[new Date(it.y, it.m, it.day).getDay()]}) 배송</div><b>${it.name}</b><p>${it.opt}</p><div class="mini-step"><button onclick="cartQty(${i},-1)" aria-label="감소">−</button><b>${it.qty}</b><button onclick="cartQty(${i},1)" aria-label="증가">+</button></div></div><div class="right"><div class="pr">${WON(cartItemPrice(it))}</div><button onclick="cartDel(${i})" aria-label="삭제" style="border:0;background:none;color:#bcc4be;font-size:17px;margin-top:8px">✕</button></div></div>`).join('');
   const sub = cart.reduce((s, it) => s + cartItemPrice(it), 0), disc = coupon ? Math.min(coupon.amount, sub) : 0;
   document.getElementById('cartFoot').style.display = 'block';
   document.getElementById('cartSum').innerHTML = `<div class="sumrow"><span>상품금액</span><span>${WON(sub)}</span></div><div class="sumrow"><span>배송비</span><span>무료</span></div>` + (coupon ? `<div class="sumrow disc"><span>${coupon.label}</span><span>-${WON(disc)}</span></div>` : '') + `<div class="sumrow tot"><span>총 결제금액</span><span class="v">${WON(sub - disc)}</span></div>`;
@@ -248,7 +266,7 @@ document.addEventListener('keydown', e => { if (e.key !== 'Escape') return; clos
 /* ============================================================ 인기/내예약/마이 */
 function buildPopular() {
   const ranks = [{ ...POOL[2], sold: 1284 }, { ...POOL[7], sold: 1102 }, { ...POOL[0], sold: 987 }, { ...POOL[8], sold: 856 }, { ...POOL[10], sold: 742 }];
-  document.getElementById('popular').innerHTML = ranks.map((m, i) => `<div class="pcard" onclick="toast('인기 SET은 달력에서 예약일을 선택하세요 🗓️')"><span class="rk">BEST ${i + 1}</span><div class="em">${m.f}</div><b>${m.n} SET</b><div class="pr">${WON(SET_PRICE)}</div><div class="sold">이번달 ${m.sold.toLocaleString()}개 판매</div></div>`).join('');
+  document.getElementById('popular').innerHTML = ranks.map((m, i) => `<div class="pcard" onclick="toast('인기 SET은 달력에서 예약일을 선택하세요 🗓️')"><span class="rk">BEST ${i + 1}</span>${imgTag(m, 'pimg')}<b>${m.n} SET</b><div class="pr">${WON(SET_PRICE)}</div><div class="sold">이번달 ${m.sold.toLocaleString()}개 판매</div></div>`).join('');
 }
 let orderTab = 'upcoming';
 const STEP_OF = { recv: 1, prep: 2, ship: 3, done: 4 };
@@ -262,9 +280,9 @@ function buildOrders(tab) {
     if (orderTab === 'upcoming') {
       const steps = ['주문완료', '배송준비', '배송중', '배송완료'], c = STEP_OF[o.st], st = o.st === 'ship' ? '<span class="ostatus os-ship">배송중</span>' : '<span class="ostatus os-prep">배송준비중</span>';
       const track = steps.map((s, i) => `<div class="step ${i < c - 1 ? 'done' : i === c - 1 ? 'cur' : ''}"><div class="c">${i < c - 1 ? '✓' : i + 1}</div><div class="l">${s}</div></div>`).join('');
-      return `<div class="ocard"><div class="oh"><div class="dt">📦 ${o.m + 1}/${o.day} (${DOW[new Date(o.y, o.m, o.day).getDay()]}) 배송 예정</div>${st}</div><div class="oitem"><div class="em">${o.emoji}</div><div class="info"><b>${o.label}</b><p>${o.opt} · ${o.qty}개</p></div><div class="pr">${WON(o.amt)}</div></div><div class="track">${track}</div><div class="obtns"><button onclick="toast('배송 조회 (데모)')">배송 조회</button><button onclick="toast('주문 변경은 마감 전까지 가능 (데모)')">주문 변경</button></div></div>`;
+      return `<div class="ocard"><div class="oh"><div class="dt">📦 ${o.m + 1}/${o.day} (${DOW[new Date(o.y, o.m, o.day).getDay()]}) 배송 예정</div>${st}</div><div class="oitem">${imgTagRaw(o.label, o.emoji, 'oimg')}<div class="info"><b>${o.label}</b><p>${o.opt} · ${o.qty}개</p></div><div class="pr">${WON(o.amt)}</div></div><div class="track">${track}</div><div class="obtns"><button onclick="toast('배송 조회 (데모)')">배송 조회</button><button onclick="toast('주문 변경은 마감 전까지 가능 (데모)')">주문 변경</button></div></div>`;
     }
-    return `<div class="ocard"><div class="oh"><div class="dt">✅ ${o.m + 1}/${o.day} 배송완료</div><span class="ostatus os-done">완료</span></div><div class="oitem"><div class="em">${o.emoji}</div><div class="info"><b>${o.label}</b><p>${o.opt} · ${o.qty}개</p></div><div class="pr">${WON(o.amt)}</div></div><div class="obtns"><button class="pri" onclick="reorder()">🔁 재주문</button><button onclick="toast('리뷰 작성 (데모)')">리뷰 쓰기</button></div></div>`;
+    return `<div class="ocard"><div class="oh"><div class="dt">✅ ${o.m + 1}/${o.day} 배송완료</div><span class="ostatus os-done">완료</span></div><div class="oitem">${imgTagRaw(o.label, o.emoji, 'oimg')}<div class="info"><b>${o.label}</b><p>${o.opt} · ${o.qty}개</p></div><div class="pr">${WON(o.amt)}</div></div><div class="obtns"><button class="pri" onclick="reorder()">🔁 재주문</button><button onclick="toast('리뷰 작성 (데모)')">리뷰 쓰기</button></div></div>`;
   }).join('');
 }
 function buildMy() { const u = Store.d.user; document.getElementById('myCoupons').innerHTML = (u.coupons.length ? u.coupons : [{ amt: '–', t: '보유한 쿠폰이 없어요', d: '관리자가 발급하면 여기 표시됩니다' }]).map(c => `<div class="coupon-card"><div class="amt">${c.amt}<span style="font-size:12px">${c.amt === '15%' || c.amt === '–' ? '' : '원'}</span></div><div class="ci"><b>${c.t}</b><p>${c.d}</p></div>${c.amt === '–' ? '' : '<button class="use" onclick="toast(\'쿠폰함에서 사용 (데모)\')">사용</button>'}</div>`).join(''); }
