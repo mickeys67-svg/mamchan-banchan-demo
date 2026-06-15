@@ -6,18 +6,15 @@
 <title>맘찬 · 반찬 예약주문 — 리뉴얼 프로토타입</title>
 <meta name="description" content="카페24 기반 반찬 예약주문 사이트 리뉴얼 & CRM 프로토타입 데모">
 <meta property="og:title" content="맘찬 · 반찬 예약주문 리뉴얼 데모">
-<meta property="og:description" content="모바일 캘린더형 예약주문 + CRM + 카카오 알림톡 통합 데모">
+<meta property="og:description" content="모바일 캘린더형 예약주문 + 정기구독 + CRM + 카카오 알림톡 통합 데모">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍱</text></svg>">
 <link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style2.css">
 </head>
 <body>
 
-  <!-- ===== TOP NAV ===== -->
   <nav class="nav">
-    <div class="brand">
-      <span class="logo">🍱</span>
-      <div>맘찬<span class="sub"> · 반찬 예약주문 리뉴얼 데모</span></div>
-    </div>
+    <div class="brand"><span class="logo">🍱</span><div>맘찬<span class="sub"> · 반찬 예약주문 리뉴얼 데모</span></div></div>
     <div class="seg-switch">
       <button id="nv-customer" class="on" onclick="showView('customer')">📱 고객 화면</button>
       <button id="nv-admin" onclick="showView('admin')">🖥️ 관리자 · CRM</button>
@@ -30,100 +27,122 @@
     <!-- ========================= CUSTOMER ========================= -->
     <section id="view-customer" class="view on">
       <div class="cust-wrap">
-
-        <!-- 좌측 피치 (데스크톱) -->
         <div class="pitch">
           <span class="kicker">CAFE24 · 모바일 예약주문</span>
           <h2>달력에서 고르는<br><em>반찬 정기 예약</em> 경험</h2>
-          <p>고객은 원하는 배송 날짜를 달력에서 직접 고르고, 여러 날짜를 한 번에 결제합니다. 마감·품절은 실시간으로 반영됩니다.</p>
+          <p>고객은 배송 날짜를 직접 고르고, 정기구독으로 매주 자동 주문합니다. 마감·품절·등급·쿠폰이 실시간 반영됩니다.</p>
           <div class="feat"><div class="ic">🗓️</div><div><b>캘린더형 월간 메뉴표</b><p>날짜별 메뉴·옵션·잔여수량을 한눈에</p></div></div>
-          <div class="feat"><div class="ic">🛒</div><div><b>날짜별 담기 · 통합결제</b><p>여러 배송일을 장바구니에 모아 한 번에</p></div></div>
-          <div class="feat"><div class="ic">⏰</div><div><b>마감시간 자동 품절</b><p>관리자 설정 한도·시간에 맞춰 자동 처리</p></div></div>
-          <div class="feat"><div class="ic">🎟️</div><div><b>등급·쿠폰 연동</b><p>회원 등급과 쿠폰이 결제에 자동 반영</p></div></div>
+          <div class="feat"><div class="ic">🔁</div><div><b>정기구독 · 재주문</b><p>주2~5회 구독으로 재주문율 극대화</p></div></div>
+          <div class="feat"><div class="ic">📦</div><div><b>내 예약 · 배송 추적</b><p>예정/완료 주문과 배송 상태 확인</p></div></div>
+          <div class="feat"><div class="ic">👤</div><div><b>등급·쿠폰·적립</b><p>마이페이지에서 혜택 통합 관리</p></div></div>
         </div>
 
-        <!-- 폰 -->
         <div class="phone">
           <div class="screen">
             <div class="notch"></div>
             <div class="statusbar"><span>9:41</span><span class="r">📶 🔋</span></div>
 
-            <div class="app-head">
-              <div class="top">
-                <div>
-                  <div class="greet">안녕하세요, 민은님 👋</div>
-                  <h1>🍱 오늘은 어떤 반찬?</h1>
+            <!-- ===== 홈 ===== -->
+            <div class="pscreen on" id="ps-home">
+              <div class="app-head">
+                <div class="top">
+                  <div><div class="greet">안녕하세요, 민은님 👋</div><h1>🍱 오늘은 어떤 반찬?</h1></div>
+                  <div class="head-icons"><button class="iconbtn" aria-label="알림">🔔</button><button class="iconbtn" onclick="openCart()" aria-label="장바구니">🛒<span class="badge" id="cartBadge" style="display:none">0</span></button></div>
                 </div>
-                <div class="head-icons">
-                  <button class="iconbtn">🔔</button>
-                  <button class="iconbtn" onclick="openCart()">🛒<span class="badge" id="cartBadge" style="display:none">0</span></button>
-                </div>
+                <div class="grade-chip"><div class="av">G</div><div class="gtxt"><b>GOLD 회원</b><div class="pt">적립금 12,400원 · VIP까지 3회 남음</div></div><span class="gbadge">15% 쿠폰</span></div>
               </div>
-              <div class="grade-chip">
-                <div class="av">G</div>
-                <div class="gtxt"><b>GOLD 회원</b><div class="pt">적립금 12,400원 · VIP까지 3회 남음</div></div>
-                <span class="gbadge">15% 쿠폰</span>
+              <div class="scroll">
+                <div class="promo"><span class="em">🎁</span><small>이번주 한정 혜택</small><b>신규가입 5,000원 쿠폰</b><p>장바구니에서 <b>MOM5000</b> 입력 시 즉시 할인</p></div>
+                <div class="reorder"><div class="em">🔁</div><div class="t"><b>지난주 그대로 다시 받기</b><p>제육볶음 외 1건 · 한 번에 담기</p></div><button onclick="reorder()">재주문</button></div>
+                <div class="sec"><div class="sec-h"><b><span class="ic">🔥</span> 이번달 인기 반찬</b><span class="more">더보기</span></div></div>
+                <div class="hscroll" id="popular"></div>
+                <div class="sec">
+                  <div class="sec-h"><b><span class="ic">🗓️</span> 당월 메뉴표</b><span class="more">날짜를 선택하세요</span></div>
+                  <div class="calbox">
+                    <div class="calnav"><button id="calPrev" onclick="navMonth(-1)" aria-label="이전 달">‹</button><div class="ym" id="calYM"></div><button id="calNext" onclick="navMonth(1)" aria-label="다음 달">›</button></div>
+                    <div class="dow"><div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div></div>
+                    <div class="cgrid" id="calGrid"></div>
+                    <div class="legend"><span><i style="background:var(--green-soft)"></i>예약가능</span><span><i style="background:var(--coral-soft)"></i>마감임박</span><span><i style="background:var(--red-soft)"></i>마감</span><span><i style="background:#f4f6f3"></i>휴무</span></div>
+                  </div>
+                </div>
+                <div style="height:20px"></div>
               </div>
             </div>
 
-            <div class="scroll">
-              <div class="promo">
-                <span class="em">🎁</span>
-                <small>이번주 한정 혜택</small>
-                <b>신규가입 5,000원 쿠폰</b>
-                <p>장바구니에서 <b>MOM5000</b> 입력 시 즉시 할인</p>
-              </div>
-
-              <div class="sec">
-                <div class="sec-h"><b><span class="ic">🔥</span> 이번달 인기 반찬</b><span class="more">더보기</span></div>
-              </div>
-              <div class="hscroll" id="popular"></div>
-
-              <div class="sec">
-                <div class="sec-h"><b><span class="ic">🗓️</span> 당월 메뉴표</b><span class="more">날짜를 선택하세요</span></div>
-                <div class="calbox">
-                  <div class="calnav">
-                    <button id="calPrev" onclick="navMonth(-1)">‹</button>
-                    <div class="ym" id="calYM"></div>
-                    <button id="calNext" onclick="navMonth(1)">›</button>
-                  </div>
-                  <div class="dow"><div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div></div>
-                  <div class="cgrid" id="calGrid"></div>
-                  <div class="legend">
-                    <span><i style="background:var(--green-soft)"></i>예약가능</span>
-                    <span><i style="background:var(--coral-soft)"></i>마감임박</span>
-                    <span><i style="background:var(--red-soft)"></i>마감</span>
-                    <span><i style="background:#f4f6f3"></i>휴무</span>
-                  </div>
+            <!-- ===== 정기구독 ===== -->
+            <div class="pscreen" id="ps-sub">
+              <div class="simple-head"><h1>🔁 정기구독</h1><p>매주 자동으로 받는 우리집 반찬</p></div>
+              <div class="scroll">
+                <div class="sub-hero"><span class="em">🍱</span><small>맘찬 정기구독</small><h2>구독하면<br>매번 10% 더 싸게</h2><p>원하는 요일·횟수로 자동 주문, 언제든 일시정지·해지 가능해요.</p></div>
+                <div class="sub-benefits">
+                  <div class="b"><div class="ic">💸</div><b>상시 10% 할인</b><span>구독 전용가</span></div>
+                  <div class="b"><div class="ic">🚚</div><b>배송비 무료</b><span>전 구독 적용</span></div>
+                  <div class="b"><div class="ic">⏸️</div><b>자유로운 관리</b><span>정지·해지 즉시</span></div>
                 </div>
+                <div class="plan" onclick="subscribe('주 2회 구독')"><div class="ph"><div><b>가볍게 주 2회</b><div class="freq">화·목 배송</div></div><div class="pr"><div class="now">19,600원</div><div class="per">주 / 2끼</div></div></div><span class="save">월 7,840원 절약</span></div>
+                <div class="plan featured" onclick="subscribe('주 3회 구독')"><span class="flag">가장 인기</span><div class="ph"><div><b>알찬 주 3회</b><div class="freq">월·수·금 배송</div></div><div class="pr"><div class="now">29,400원</div><div class="per">주 / 3끼</div></div></div><span class="save">월 11,760원 절약</span></div>
+                <div class="plan" onclick="subscribe('주 5회 구독')"><div class="ph"><div><b>든든한 주 5회</b><div class="freq">평일 매일 배송</div></div><div class="pr"><div class="now">49,000원</div><div class="per">주 / 5끼</div></div></div><span class="save">월 19,600원 절약</span></div>
+                <div style="height:20px"></div>
               </div>
-              <div style="height:24px"></div>
             </div>
 
-            <!-- 주문 시트 -->
+            <!-- ===== 내 예약 ===== -->
+            <div class="pscreen" id="ps-orders">
+              <div class="simple-head"><h1>📦 내 예약</h1><p>예정된 배송과 지난 주문 내역</p></div>
+              <div class="scroll">
+                <div class="otabs" id="otabs"><button class="on" data-ot="upcoming" onclick="buildOrders('upcoming')">예정 배송</button><button data-ot="done" onclick="buildOrders('done')">완료</button></div>
+                <div id="orderList"></div>
+                <div style="height:20px"></div>
+              </div>
+            </div>
+
+            <!-- ===== 마이 ===== -->
+            <div class="pscreen" id="ps-my">
+              <div class="simple-head"><h1>👤 마이페이지</h1><p>등급·쿠폰·적립 통합 관리</p></div>
+              <div class="scroll">
+                <div class="profile"><span class="em">🏅</span>
+                  <div class="pt"><div class="av">민</div><div class="pn"><b>김민은 님</b><div class="g">GOLD 회원 · 적립금 12,400원</div></div></div>
+                  <div class="prog"><div class="pb"><i style="width:72%"></i></div><div class="ptx">VIP까지 3회 남았어요 · 누적 24회 주문</div></div>
+                </div>
+                <div class="mystat"><div class="s"><div class="v">24</div><div class="l">총 주문</div></div><div class="s"><div class="v">12,400</div><div class="l">적립금</div></div><div class="s"><div class="v">2</div><div class="l">보유 쿠폰</div></div></div>
+                <div class="sec"><div class="sec-h"><b><span class="ic">🎟️</span> 내 쿠폰함</b></div></div>
+                <div id="myCoupons"></div>
+                <div class="mymenu">
+                  <button onclick="toast('구독 관리 (데모)')"><span class="mi">🔁</span> 구독 관리<span class="ar">›</span></button>
+                  <button onclick="toast('배송지 관리 (데모)')"><span class="mi">📍</span> 배송지 관리<span class="ar">›</span></button>
+                  <button onclick="toast('알림 설정 (데모)')"><span class="mi">🔔</span> 알림 설정<span class="ar">›</span></button>
+                  <button onclick="toast('고객센터 (데모)')"><span class="mi">💬</span> 고객센터<span class="ar">›</span></button>
+                </div>
+                <div style="height:20px"></div>
+              </div>
+            </div>
+
+            <!-- 하단 탭바 -->
+            <nav class="tabbar">
+              <button class="on" onclick="switchTab('home',this)"><span class="ti">🏠</span>홈</button>
+              <button onclick="switchTab('sub',this)"><span class="ti">🔁</span>구독</button>
+              <button onclick="switchTab('orders',this)"><span class="ti">📦</span>내 예약</button>
+              <button onclick="switchTab('my',this)"><span class="ti">👤</span>마이</button>
+            </nav>
+
+            <!-- ===== 주문 시트 ===== -->
             <div class="mask" id="mask" onclick="closeSheet()"></div>
             <div class="sheet" id="sheet">
               <div class="grab"></div>
               <div class="sheet-body">
                 <div class="dish-hero"><span id="shIco">🍲</span><div class="fav">🤍</div></div>
-                <div class="sdate" id="shDate"></div>
-                <h3 id="shTitle"></h3>
-                <div class="tags" id="shTags"></div>
-                <div class="sdesc" id="shDesc"></div>
+                <div class="sdate" id="shDate"></div><h3 id="shTitle"></h3>
+                <div class="tags" id="shTags"></div><div class="sdesc" id="shDesc"></div>
                 <div class="price-row" id="shPrice"></div>
                 <div class="opt-h">옵션 추가 <span>1종 선택 가능</span></div>
                 <div id="shOpts"></div>
-                <div class="qty-row">
-                  <span class="lb">수량</span>
-                  <div class="stepper"><button onclick="stepQty(-1)">−</button><b id="shQty">1</b><button onclick="stepQty(1)">+</button></div>
-                </div>
+                <div class="qty-row"><span class="lb">수량</span><div class="stepper"><button onclick="stepQty(-1)" aria-label="감소">−</button><b id="shQty">1</b><button onclick="stepQty(1)" aria-label="증가">+</button></div></div>
+                <div class="reviews"><div class="rh"><b>💬 구매 후기</b><span class="score">★ 4.9 (218)</span></div><div id="shReviews"></div></div>
               </div>
-              <div class="sheet-foot">
-                <button class="cta" onclick="addToCart()">🛒 장바구니 담기 · <span id="shAddPrice"></span></button>
-              </div>
+              <div class="sheet-foot"><button class="cta" onclick="addToCart()">🛒 장바구니 담기 · <span id="shAddPrice"></span></button></div>
             </div>
 
-            <!-- 장바구니 -->
+            <!-- ===== 장바구니 ===== -->
             <div class="mask" id="cartMask" onclick="closeCart()"></div>
             <div class="sheet" id="cartSheet">
               <div class="grab"></div>
@@ -131,23 +150,16 @@
                 <h3 style="margin:4px 0 16px">🛒 장바구니</h3>
                 <div id="cartList"></div>
                 <div id="cartFoot" style="display:none">
-                  <div class="coupon">
-                    <input id="couponInput" placeholder="쿠폰 번호 (예: MOM5000)">
-                    <button onclick="applyCoupon()">적용</button>
-                  </div>
+                  <div class="coupon"><input id="couponInput" placeholder="쿠폰 번호 (예: MOM5000)"><button onclick="applyCoupon()">적용</button></div>
                   <div id="cartSum"></div>
                 </div>
               </div>
-              <div class="sheet-foot" id="cartCheckoutWrap">
-                <button class="cta" onclick="checkout()">💳 통합 결제하기</button>
-              </div>
+              <div class="sheet-foot" id="cartCheckoutWrap" style="display:none"><button class="cta" onclick="checkout()">💳 통합 결제하기</button></div>
             </div>
 
-            <!-- 주문 완료 -->
+            <!-- ===== 주문 완료 ===== -->
             <div class="success" id="success">
-              <div class="ok">✅</div>
-              <h2>예약이 완료됐어요!</h2>
-              <p id="sucMsg"></p>
+              <div class="ok">✅</div><h2>예약이 완료됐어요!</h2><p id="sucMsg"></p>
               <div class="ono" id="sucNo"></div>
               <div class="kk">💬 카카오톡으로 주문 확인 알림톡이 발송되었습니다</div>
               <button class="cta" style="max-width:240px" onclick="closeSuccess()">확인</button>
@@ -162,64 +174,56 @@
     <!-- ========================= ADMIN ========================= -->
     <section id="view-admin" class="view">
       <div class="admin">
-        <!-- 사이드바 -->
         <aside class="aside">
           <div class="alogo"><span class="l">🍱</span> 맘찬 관리자</div>
           <button class="anav on" onclick="showPanel('dash',this)"><span class="i">📊</span> 대시보드</button>
+          <button class="anav" onclick="showPanel('orders',this)"><span class="i">🧾</span> 주문 관리</button>
           <button class="anav" onclick="showPanel('menu',this)"><span class="i">🗓️</span> 메뉴·예약 제어</button>
+          <button class="anav" onclick="showPanel('subs',this)"><span class="i">🔁</span> 구독 관리</button>
           <button class="anav" onclick="showPanel('crm',this)"><span class="i">👥</span> CRM 세분화</button>
           <button class="anav" onclick="showPanel('kakao',this)"><span class="i">💬</span> 카카오 알림톡</button>
           <div class="spacer"></div>
           <div class="meadm"><div class="av">관</div><div><b style="color:#fff">맘찬 운영팀</b><div style="color:#9db3a6;font-size:11px">마케팅 담당</div></div></div>
         </aside>
 
-        <!-- 메인 -->
         <div class="amain">
 
           <!-- 대시보드 -->
           <div class="apanel on" id="panel-dash">
-            <div class="ahead">
-              <div><h2>대시보드</h2><p>객단가·재주문율·회원 현황을 한눈에</p></div>
-              <div class="date-pill">📅 2026년 6월 15일 기준</div>
-            </div>
+            <div class="ahead"><div><h2>대시보드</h2><p>객단가·재주문율·매출 추이를 한눈에</p></div><div class="date-pill">📅 2026년 6월 15일 기준</div></div>
             <div class="kpis" id="kpis"></div>
-            <div class="grid2">
-              <div class="card">
-                <h4>📈 최근 7일 매출</h4>
-                <div class="csub">단위: 만원 · 오늘 최고 매출 갱신</div>
-                <div class="bars" id="salesBars"></div>
-              </div>
-              <div class="card">
-                <h4>🏅 회원 등급 분포</h4>
-                <div class="csub">누적 구매 기반 자동 분류</div>
-                <div class="donut-wrap"><div id="donut"></div><div class="donut-legend" id="donutLegend"></div></div>
-              </div>
+            <div class="card"><h4>📈 매출 추이 (최근 14일)</h4><div class="csub">단위: 만원 · 우상향 추세</div><div id="lineChart"></div></div>
+            <div class="grid2" style="margin-top:18px">
+              <div class="card"><h4>🏆 이번달 베스트 메뉴</h4><div class="csub">판매 수량 기준 TOP 5</div><div id="bestRank"></div></div>
+              <div class="card"><h4>🏅 회원 등급 분포</h4><div class="csub">누적 구매 기반 자동 분류</div><div class="donut-wrap"><div id="donut"></div><div class="donut-legend" id="donutLegend"></div></div></div>
             </div>
-            <div class="card" style="margin-top:18px">
-              <h4>🗓️ 일자별 예약 현황 (이번주)</h4>
-              <div class="csub">한도 도달·마감시간 경과 시 고객 화면 자동 품절</div>
-              <table><thead><tr><th>날짜</th><th>메뉴</th><th>주문/한도</th><th style="width:32%">소진율</th><th>상태</th></tr></thead><tbody id="dashRows"></tbody></table>
-            </div>
+            <div class="card" style="margin-top:18px"><h4>🗓️ 일자별 예약 현황 (이번주)</h4><div class="csub">한도 도달·마감시간 경과 시 고객 화면 자동 품절</div><table><thead><tr><th>날짜</th><th>메뉴</th><th>주문/한도</th><th style="width:32%">소진율</th><th>상태</th></tr></thead><tbody id="dashRows"></tbody></table></div>
+          </div>
+
+          <!-- 주문 관리 -->
+          <div class="apanel" id="panel-orders">
+            <div class="ahead"><div><h2>주문 관리</h2><p>접수 → 준비 → 배송 → 완료 상태를 직접 관리</p></div><button class="btn btn-ghost" style="padding:11px 18px" onclick="toast('주문 엑셀 내보내기 (데모)')">⬇ 엑셀</button></div>
+            <div class="ostats" id="orderStats"></div>
+            <div class="card"><h4>📋 실시간 주문 목록</h4><div class="csub">상태를 변경하면 고객 '내 예약'에 즉시 반영됩니다</div><table><thead><tr><th>주문번호</th><th>고객</th><th>배송일</th><th>메뉴</th><th>수량</th><th>금액</th><th>상태</th></tr></thead><tbody id="adminOrderRows"></tbody></table></div>
           </div>
 
           <!-- 메뉴·예약 제어 -->
           <div class="apanel" id="panel-menu">
-            <div class="ahead">
-              <div><h2>메뉴 · 예약 제어</h2><p>월간 메뉴표 등록 및 일자별 수량/마감 설정</p></div>
-              <button class="btn btn-pri" style="padding:11px 18px" onclick="toast('월간 메뉴 일괄 등록 화면 (데모)')">+ 월간 메뉴 등록</button>
-            </div>
-            <div class="card">
-              <table><thead><tr><th>배송일</th><th>메인 메뉴</th><th>옵션</th><th>주문 가능 수량</th><th>마감시간</th><th>상태</th><th></th></tr></thead><tbody id="menuRows"></tbody></table>
-              <p style="font-size:12px;color:var(--sub);margin-top:14px;line-height:1.6">· <b>마케팅 담당자가 코드 없이</b> 직접 메뉴·수량·마감을 등록/수정합니다.<br>· 수량 도달 또는 마감시간 경과 시 고객 화면에서 <b>자동 품절</b> 처리됩니다.</p>
-            </div>
+            <div class="ahead"><div><h2>메뉴 · 예약 제어</h2><p>월간 메뉴표 등록 및 일자별 수량/마감 설정</p></div><button class="btn btn-pri" style="padding:11px 18px" onclick="toast('월간 메뉴 일괄 등록 화면 (데모)')">+ 월간 메뉴 등록</button></div>
+            <div class="card"><table><thead><tr><th>배송일</th><th>메인 메뉴</th><th>옵션</th><th>주문 가능 수량</th><th>마감시간</th><th>상태</th><th></th></tr></thead><tbody id="menuRows"></tbody></table>
+              <p style="font-size:12px;color:var(--sub);margin-top:14px;line-height:1.6">· <b>마케팅 담당자가 코드 없이</b> 직접 메뉴·수량·마감을 등록/수정합니다.<br>· 수량 도달 또는 마감시간 경과 시 고객 화면에서 <b>자동 품절</b> 처리됩니다.</p></div>
+          </div>
+
+          <!-- 구독 관리 -->
+          <div class="apanel" id="panel-subs">
+            <div class="ahead"><div><h2>구독 관리</h2><p>정기구독 회원과 반복 매출(MRR) 현황</p></div><div class="date-pill">🔁 구독 전환율 24%</div></div>
+            <div class="mrr" id="mrrCards"></div>
+            <div class="card"><h4>👥 구독 회원 목록</h4><div class="csub">플랜·다음 결제일·상태 관리</div><table><thead><tr><th>회원</th><th>플랜</th><th>다음 결제</th><th>구독료</th><th>상태</th><th></th></tr></thead><tbody id="subRows"></tbody></table></div>
           </div>
 
           <!-- CRM -->
           <div class="apanel" id="panel-crm">
-            <div class="ahead">
-              <div><h2>CRM 세분화</h2><p>구매 패턴 기반 세그먼트 조회 및 맞춤 쿠폰 발급</p></div>
-              <button class="btn btn-ghost" style="padding:11px 18px" onclick="toast('세그먼트 엑셀 추출 (데모)')">⬇ 엑셀 추출</button>
-            </div>
+            <div class="ahead"><div><h2>CRM 세분화</h2><p>구매 패턴 기반 세그먼트 조회 및 맞춤 쿠폰 발급</p></div><button class="btn btn-ghost" style="padding:11px 18px" onclick="toast('세그먼트 엑셀 추출 (데모)')">⬇ 엑셀 추출</button></div>
             <div class="card">
               <div class="seg" id="crmSeg">
                 <button class="on" data-seg="all" onclick="filterCrm('all',this)">전체 <span class="ct"></span></button>
@@ -235,72 +239,48 @@
 
           <!-- 카카오 -->
           <div class="apanel" id="panel-kakao">
-            <div class="ahead">
-              <div><h2>카카오 알림톡</h2><p>CRM 세그먼트 기반 자동·수동 발송 시나리오</p></div>
-              <div class="date-pill">💬 발신프로필 @맘찬 연동됨</div>
-            </div>
-            <div class="card">
-              <div id="kkList"></div>
-              <p style="font-size:12px;color:var(--sub);margin-top:6px">· 발송 결과는 로그로 기록되며 실패 건은 자동 재시도됩니다.</p>
-            </div>
+            <div class="ahead"><div><h2>카카오 알림톡</h2><p>CRM 세그먼트 기반 자동·수동 발송 + 캠페인 성과</p></div><div class="date-pill">💬 발신프로필 @맘찬 연동됨</div></div>
+            <div class="card"><div id="kkList"></div><p style="font-size:12px;color:var(--sub);margin-top:6px">· 발송 결과는 로그로 기록되며 실패 건은 자동 재시도됩니다.</p></div>
           </div>
 
         </div>
       </div>
-
-      <p class="foot-note">
-        본 화면은 <b>실제 동작하는 인터랙티브 프로토타입</b>입니다 — 버튼·필터·발송·수정이 모두 반응합니다.<br>
-        실제 구축은 카페24 스킨(고객) + 외부 앱 서버(예약·재고·CRM·알림) 하이브리드 아키텍처로 진행됩니다. · 데이터는 데모용 가공 샘플
-      </p>
+      <p class="foot-note">본 화면은 <b>실제 동작하는 인터랙티브 프로토타입</b>입니다 — 버튼·필터·발송·수정·상태변경이 모두 반응합니다.<br>실제 구축은 카페24 스킨(고객) + 외부 앱 서버(예약·재고·구독·CRM·알림) 하이브리드 아키텍처로 진행됩니다. · 데이터는 데모용 가공 샘플</p>
     </section>
   </div>
 
-  <!-- ===== 모달: 예약 설정 ===== -->
-  <div class="modal-mask" id="modalMenu">
-    <div class="modal">
-      <div class="modal-h"><b id="emTitle">예약 설정</b><button class="x" onclick="closeModal('modalMenu')">✕</button></div>
-      <div class="modal-b">
-        <div class="fld"><label>주문 가능 수량</label><input id="emLimit" type="number" min="1"></div>
-        <div class="fld"><label>주문 마감 시간</label>
-          <select id="emCutoff"><option>전일 18:00</option><option>전일 20:00</option><option>당일 09:00</option><option>당일 12:00</option></select>
-        </div>
-      </div>
-      <div class="modal-f"><button class="btn btn-ghost" onclick="closeModal('modalMenu')">취소</button><button class="btn btn-pri" onclick="saveMenu()">저장</button></div>
+  <!-- 모달: 예약 설정 -->
+  <div class="modal-mask" id="modalMenu"><div class="modal">
+    <div class="modal-h"><b id="emTitle">예약 설정</b><button class="x" onclick="closeModal('modalMenu')">✕</button></div>
+    <div class="modal-b">
+      <div class="fld"><label>주문 가능 수량</label><input id="emLimit" type="number" min="1"></div>
+      <div class="fld"><label>주문 마감 시간</label><select id="emCutoff"><option>전일 18:00</option><option>전일 20:00</option><option>당일 09:00</option><option>당일 12:00</option></select></div>
     </div>
-  </div>
+    <div class="modal-f"><button class="btn btn-ghost" onclick="closeModal('modalMenu')">취소</button><button class="btn btn-pri" onclick="saveMenu()">저장</button></div>
+  </div></div>
 
-  <!-- ===== 모달: 쿠폰 발급 ===== -->
-  <div class="modal-mask" id="modalCoupon">
-    <div class="modal">
-      <div class="modal-h"><b>쿠폰 발급</b><button class="x" onclick="closeModal('modalCoupon')">✕</button></div>
-      <div class="modal-b">
-        <p style="font-size:13.5px;color:var(--ink-2);margin-bottom:16px"><b id="coupTarget"></b>님에게 쿠폰을 발급합니다.</p>
-        <div class="fld"><label>쿠폰 종류</label>
-          <select id="coupType"><option>15% 할인 (최대 8,000원)</option><option>5,000원 정액 할인</option><option>무료배송</option><option>VIP 전용 12% 할인</option></select>
-        </div>
-        <div class="fld"><label>유효기간</label><select><option>발급일 +14일</option><option>발급일 +30일</option><option>이번달 말일</option></select></div>
-      </div>
-      <div class="modal-f"><button class="btn btn-ghost" onclick="closeModal('modalCoupon')">취소</button><button class="btn btn-pri" onclick="confirmCoupon()">발급 + 알림톡 발송</button></div>
+  <!-- 모달: 쿠폰 발급 -->
+  <div class="modal-mask" id="modalCoupon"><div class="modal">
+    <div class="modal-h"><b>쿠폰 발급</b><button class="x" onclick="closeModal('modalCoupon')">✕</button></div>
+    <div class="modal-b">
+      <p style="font-size:13.5px;color:var(--ink-2);margin-bottom:16px"><b id="coupTarget"></b>님에게 쿠폰을 발급합니다.</p>
+      <div class="fld"><label>쿠폰 종류</label><select id="coupType"><option>15% 할인 (최대 8,000원)</option><option>5,000원 정액 할인</option><option>무료배송</option><option>VIP 전용 12% 할인</option></select></div>
+      <div class="fld"><label>유효기간</label><select><option>발급일 +14일</option><option>발급일 +30일</option><option>이번달 말일</option></select></div>
     </div>
-  </div>
+    <div class="modal-f"><button class="btn btn-ghost" onclick="closeModal('modalCoupon')">취소</button><button class="btn btn-pri" onclick="confirmCoupon()">발급 + 알림톡 발송</button></div>
+  </div></div>
 
-  <!-- ===== 모달: 카카오 발송 확인 ===== -->
-  <div class="modal-mask" id="modalKakao">
-    <div class="modal">
-      <div class="modal-h"><b>알림톡 발송 확인</b><button class="x" onclick="closeModal('modalKakao')">✕</button></div>
-      <div class="modal-b"><p id="kkConfirm" style="font-size:13.5px;color:var(--ink-2);line-height:1.7"></p></div>
-      <div class="modal-f"><button class="btn btn-ghost" onclick="closeModal('modalKakao')">취소</button><button class="btn btn-pri" onclick="confirmKakao()">발송</button></div>
-    </div>
-  </div>
+  <!-- 모달: 카카오 발송 -->
+  <div class="modal-mask" id="modalKakao"><div class="modal">
+    <div class="modal-h"><b>알림톡 발송 확인</b><button class="x" onclick="closeModal('modalKakao')">✕</button></div>
+    <div class="modal-b"><p id="kkConfirm" style="font-size:13.5px;color:var(--ink-2);line-height:1.7"></p></div>
+    <div class="modal-f"><button class="btn btn-ghost" onclick="closeModal('modalKakao')">취소</button><button class="btn btn-pri" onclick="confirmKakao()">발송</button></div>
+  </div></div>
 
-  <!-- ===== 고객 상세 드로어 ===== -->
+  <!-- 고객 상세 드로어 -->
   <div class="drawer-mask" id="drawerMask" onclick="closeDrawer()"></div>
   <aside class="drawer" id="drawer">
-    <div class="drawer-h">
-      <div class="av" id="drAv">김</div>
-      <h3 id="drName"></h3>
-      <div class="gd" id="drGrade"></div>
-    </div>
+    <div class="drawer-h"><div class="av" id="drAv">김</div><h3 id="drName"></h3><div class="gd" id="drGrade"></div></div>
     <div class="drawer-b">
       <div class="dstat" id="drStat"></div>
       <h4 style="font-size:14px;font-weight:800;margin-bottom:14px">📜 주문 이력</h4>

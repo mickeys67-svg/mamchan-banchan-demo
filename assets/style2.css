@@ -1,0 +1,185 @@
+/* ============================================================
+   맘찬 — 고도화 v2 스타일 (탭 네비 · 구독 · 내예약 · 마이 · 관리자 확장)
+   ============================================================ */
+
+/* ===== 접근성 / 최적화 ===== */
+:focus-visible{outline:2.5px solid var(--green);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* skeleton (perceived performance) */
+@keyframes shimmer{0%{background-position:-280px 0}100%{background-position:280px 0}}
+.skel{background:linear-gradient(90deg,#eef1ed 25%,#f6f8f5 50%,#eef1ed 75%);background-size:560px 100%;animation:shimmer 1.2s infinite;border-radius:10px}
+
+/* ===================================================================
+   CUSTOMER : 멀티 스크린 + 하단 탭바
+   =================================================================== */
+.pscreen{position:absolute;inset:0;display:none;flex-direction:column}
+.pscreen.on{display:flex}
+.pscreen .scroll{padding-bottom:84px}
+
+/* 심플 헤더 (홈 외 화면) */
+.simple-head{padding:54px 20px 16px;background:#fff;border-bottom:1px solid var(--line-2);position:relative;z-index:5}
+.simple-head h1{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.simple-head p{font-size:12.5px;color:var(--sub);margin-top:3px}
+
+/* 하단 탭바 */
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:66px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);
+  border-top:1px solid var(--line-2);display:flex;z-index:35;padding-bottom:env(safe-area-inset-bottom)}
+.tabbar button{flex:1;border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--faint);font-size:10.5px;font-weight:700;transition:.15s}
+.tabbar button .ti{font-size:20px;transition:.2s}
+.tabbar button.on{color:var(--green-d)}
+.tabbar button.on .ti{transform:translateY(-2px) scale(1.08)}
+.tabbar button .tdot{position:absolute;top:8px;margin-left:18px;width:7px;height:7px;border-radius:50%;background:var(--coral)}
+
+/* 재주문 배너 (홈) */
+.reorder{margin:14px 16px 0;background:#fff;border:1px solid var(--line);border-radius:var(--r-m);padding:14px;display:flex;align-items:center;gap:13px;box-shadow:var(--shadow-s)}
+.reorder .em{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,#fef3e7,#ffe9ef);display:grid;place-items:center;font-size:24px;flex-shrink:0}
+.reorder .t{flex:1}
+.reorder .t b{font-size:13.5px}
+.reorder .t p{font-size:11.5px;color:var(--sub);margin-top:2px}
+.reorder button{border:0;background:var(--ink);color:#fff;font-size:12px;font-weight:800;padding:10px 14px;border-radius:11px;white-space:nowrap}
+
+/* ===== 정기구독 화면 ===== */
+.sub-hero{margin:16px;border-radius:var(--r-l);padding:24px 20px;color:#fff;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#0c8c4d,#1bb56a 60%,#28c074)}
+.sub-hero .em{position:absolute;right:-10px;top:-6px;font-size:96px;opacity:.18}
+.sub-hero small{font-size:12px;font-weight:800;opacity:.9;letter-spacing:.04em}
+.sub-hero h2{font-size:23px;font-weight:800;margin:8px 0 8px;line-height:1.3}
+.sub-hero p{font-size:13px;opacity:.95;line-height:1.6}
+.sub-benefits{display:flex;gap:8px;margin:14px 16px 0;flex-wrap:wrap}
+.sub-benefits .b{flex:1;min-width:90px;background:#fff;border:1px solid var(--line-2);border-radius:14px;padding:13px 12px;text-align:center;box-shadow:var(--shadow-s)}
+.sub-benefits .b .ic{font-size:22px}
+.sub-benefits .b b{display:block;font-size:12.5px;margin-top:7px}
+.sub-benefits .b span{font-size:10.5px;color:var(--sub)}
+.plan{margin:12px 16px 0;border:1.8px solid var(--line);border-radius:var(--r-m);padding:16px 18px;background:#fff;position:relative;transition:.18s;cursor:pointer}
+.plan:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:var(--shadow-s)}
+.plan.featured{border-color:var(--green);box-shadow:0 8px 22px var(--green-glow)}
+.plan .flag{position:absolute;top:-11px;left:18px;background:var(--coral);color:#fff;font-size:10.5px;font-weight:800;padding:4px 11px;border-radius:999px}
+.plan .ph{display:flex;align-items:center;justify-content:space-between}
+.plan .ph b{font-size:16px;font-weight:800}
+.plan .ph .freq{font-size:12px;color:var(--sub);margin-top:3px}
+.plan .pr{text-align:right}
+.plan .pr .now{font-size:18px;font-weight:800;color:var(--green-d)}
+.plan .pr .per{font-size:11px;color:var(--sub)}
+.plan .save{display:inline-block;margin-top:10px;font-size:11.5px;font-weight:800;color:var(--coral);background:var(--coral-soft);padding:4px 10px;border-radius:8px}
+
+/* ===== 내 예약 화면 ===== */
+.otabs{display:flex;gap:8px;margin:14px 16px 4px}
+.otabs button{flex:1;border:0;background:#fff;border:1px solid var(--line);padding:11px;border-radius:12px;font-size:13px;font-weight:700;color:var(--sub)}
+.otabs button.on{background:var(--green-soft);border-color:var(--green);color:var(--green-d)}
+.ocard{margin:12px 16px 0;background:#fff;border:1px solid var(--line);border-radius:var(--r-m);padding:16px;box-shadow:var(--shadow-s)}
+.ocard .oh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ocard .oh .dt{font-size:13px;font-weight:800}
+.ostatus{font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px}
+.os-prep{background:var(--amber-soft);color:#b8801b}.os-ship{background:var(--green-soft);color:var(--green-d)}.os-done{background:#eef2f5;color:#5b6b7c}
+.ocard .oitem{display:flex;align-items:center;gap:12px}
+.ocard .oitem .em{width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,#fef3e7,#ffe9ef);display:grid;place-items:center;font-size:25px}
+.ocard .oitem .info b{font-size:14px}
+.ocard .oitem .info p{font-size:11.5px;color:var(--sub);margin-top:2px}
+.ocard .oitem .pr{margin-left:auto;font-weight:800;font-size:13.5px}
+/* 배송 진행바 */
+.track{display:flex;align-items:center;margin-top:16px}
+.track .step{flex:1;text-align:center;position:relative}
+.track .step .c{width:22px;height:22px;border-radius:50%;background:var(--line);color:#fff;display:grid;place-items:center;margin:0 auto;font-size:11px;font-weight:800;position:relative;z-index:2}
+.track .step.done .c{background:var(--green)}
+.track .step.cur .c{background:var(--green);box-shadow:0 0 0 4px var(--green-soft)}
+.track .step .l{font-size:10px;color:var(--sub);margin-top:6px;font-weight:700}
+.track .step.done .l,.track .step.cur .l{color:var(--green-d)}
+.track .step::before{content:'';position:absolute;top:11px;left:-50%;width:100%;height:2px;background:var(--line);z-index:1}
+.track .step:first-child::before{display:none}
+.track .step.done::before,.track .step.cur::before{background:var(--green)}
+.ocard .obtns{display:flex;gap:8px;margin-top:14px}
+.ocard .obtns button{flex:1;border:1px solid var(--line);background:#fff;border-radius:11px;padding:11px;font-size:12.5px;font-weight:700;color:var(--ink-2)}
+.ocard .obtns button.pri{background:var(--green);border-color:var(--green);color:#fff}
+
+/* ===== 마이페이지 ===== */
+.profile{margin:16px;border-radius:var(--r-l);padding:22px;color:#fff;background:linear-gradient(135deg,#16201a,#264236);position:relative;overflow:hidden}
+.profile .em{position:absolute;right:-6px;bottom:-12px;font-size:84px;opacity:.12}
+.profile .pt{display:flex;align-items:center;gap:13px}
+.profile .av{width:54px;height:54px;border-radius:16px;background:linear-gradient(135deg,var(--amber),#f5c451);display:grid;place-items:center;font-size:22px;font-weight:800;color:#5b3d06}
+.profile .pn b{font-size:18px;font-weight:800}
+.profile .pn .g{font-size:12px;opacity:.85;margin-top:2px}
+.profile .prog{margin-top:18px}
+.profile .prog .pb{height:9px;background:rgba(255,255,255,.2);border-radius:5px;overflow:hidden;margin-bottom:7px}
+.profile .prog .pb i{display:block;height:100%;background:linear-gradient(90deg,var(--amber),#f5c451);border-radius:5px}
+.profile .prog .ptx{font-size:11.5px;opacity:.9}
+.mystat{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 16px 0}
+.mystat .s{background:#fff;border:1px solid var(--line-2);border-radius:14px;padding:14px 8px;text-align:center;box-shadow:var(--shadow-s)}
+.mystat .s .v{font-size:18px;font-weight:800}
+.mystat .s .l{font-size:11px;color:var(--sub);margin-top:3px}
+.coupon-card{margin:10px 16px 0;display:flex;align-items:center;gap:14px;background:#fff;border:1px dashed var(--green);border-radius:14px;padding:14px 16px;position:relative}
+.coupon-card .amt{font-size:19px;font-weight:800;color:var(--green-d)}
+.coupon-card .ci b{font-size:13px}
+.coupon-card .ci p{font-size:11px;color:var(--sub);margin-top:2px}
+.coupon-card .use{margin-left:auto;font-size:11.5px;font-weight:800;color:var(--green-d);background:var(--green-soft);padding:7px 12px;border-radius:9px;border:0}
+.mymenu{margin:14px 16px 0;background:#fff;border:1px solid var(--line-2);border-radius:var(--r-m);overflow:hidden}
+.mymenu button{width:100%;border:0;background:none;display:flex;align-items:center;gap:13px;padding:15px 16px;font-size:13.5px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--line-2);text-align:left}
+.mymenu button:last-child{border-bottom:0}
+.mymenu button .mi{font-size:17px}
+.mymenu button .ar{margin-left:auto;color:var(--faint)}
+
+/* 리뷰 (주문 시트) */
+.reviews{margin-top:18px;border-top:1px solid var(--line-2);padding-top:16px}
+.reviews .rh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.reviews .rh b{font-size:13.5px;font-weight:800}
+.reviews .rh .score{font-size:13px;font-weight:800;color:var(--amber)}
+.rev{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line-2)}
+.rev:last-child{border:0}
+.rev .rav{width:34px;height:34px;border-radius:10px;background:var(--green-soft);display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--green-d);flex-shrink:0}
+.rev .rb .rn{font-size:12px;font-weight:700}
+.rev .rb .rs{font-size:11px;color:var(--amber)}
+.rev .rb .rt{font-size:12px;color:var(--ink-2);margin-top:4px;line-height:1.5}
+
+/* ===================================================================
+   ADMIN : 확장 (주문관리 · 구독관리 · 라인차트 · 캠페인성과)
+   =================================================================== */
+/* 라인 차트 */
+.linechart{width:100%;height:170px}
+.lc-grid{stroke:var(--line-2);stroke-width:1}
+.lc-area{fill:url(#lcg)}
+.lc-line{fill:none;stroke:var(--green);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.lc-dot{fill:#fff;stroke:var(--green);stroke-width:2.5}
+
+/* 베스트 메뉴 랭킹 */
+.rank{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line-2)}
+.rank:last-child{border:0}
+.rank .no{width:24px;height:24px;border-radius:8px;background:#f0f2ef;color:var(--sub);font-weight:800;font-size:12px;display:grid;place-items:center;flex-shrink:0}
+.rank.top1 .no{background:var(--amber-soft);color:#b8801b}.rank.top2 .no{background:#eef2f5;color:#5b6b7c}.rank.top3 .no{background:var(--coral-soft);color:var(--coral)}
+.rank .em{font-size:20px}
+.rank .rn{flex:1;font-size:13px;font-weight:700}
+.rank .rbar{width:34%;height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.rank .rbar i{display:block;height:100%;background:linear-gradient(90deg,#2bc879,var(--green))}
+.rank .rv{font-size:12px;font-weight:800;width:54px;text-align:right}
+
+/* 주문관리 요약 카드 */
+.ostats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+@media(max-width:780px){.ostats{grid-template-columns:repeat(2,1fr)}}
+.ostat{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff}
+.ostat .l{font-size:12px;color:var(--sub);font-weight:700;display:flex;align-items:center;gap:6px}
+.ostat .v{font-size:24px;font-weight:800;margin-top:6px}
+.ostat i{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+/* 상태 셀렉트 (주문관리) */
+.statsel{border:1.5px solid var(--line);border-radius:9px;padding:6px 10px;font-size:12px;font-weight:700;font-family:inherit;background:#fff;color:var(--ink)}
+.statsel.s-recv{border-color:#90a0b0;color:#5b6b7c}
+.statsel.s-prep{border-color:var(--amber);color:#b8801b;background:var(--amber-soft)}
+.statsel.s-ship{border-color:var(--green);color:var(--green-d);background:var(--green-soft)}
+.statsel.s-done{border-color:var(--line);color:var(--sub)}
+
+/* 구독관리 */
+.mrr{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+@media(max-width:680px){.mrr{grid-template-columns:1fr}}
+.mrr .m{border:1px solid var(--line);border-radius:16px;padding:18px;background:linear-gradient(160deg,#fff,#fbfdfb)}
+.mrr .m .l{font-size:12.5px;color:var(--sub);font-weight:700}
+.mrr .m .v{font-size:25px;font-weight:800;margin-top:6px}
+.mrr .m .d{font-size:11.5px;font-weight:800;margin-top:6px}
+
+.subbadge{font-size:11px;font-weight:800;padding:3.5px 10px;border-radius:999px}
+.sb-active{background:var(--green-soft);color:var(--green-d)}.sb-pause{background:var(--amber-soft);color:#b8801b}.sb-cancel{background:var(--red-soft);color:var(--red)}
+.planmini{font-size:11px;font-weight:800;padding:3px 9px;border-radius:7px;background:#f0f2ef;color:var(--ink-2)}
+
+/* 카카오 캠페인 성과 */
+.kkstats{display:flex;gap:16px;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);flex-wrap:wrap}
+.kkstats .ks{font-size:11px;color:var(--sub)}
+.kkstats .ks b{display:block;font-size:15px;font-weight:800;color:var(--ink);margin-top:2px}
+.kkstats .ks b.g{color:var(--green-d)}
