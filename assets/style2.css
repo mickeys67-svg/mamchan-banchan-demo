@@ -183,3 +183,43 @@
 .kkstats .ks{font-size:11px;color:var(--sub)}
 .kkstats .ks b{display:block;font-size:15px;font-weight:800;color:var(--ink);margin-top:2px}
 .kkstats .ks b.g{color:var(--green-d)}
+
+/* ===================================================================
+   v3 : 로그인 · 회원 마이그레이션 · 데모 리셋
+   =================================================================== */
+/* 로그인 화면 (고객) */
+.login{position:absolute;inset:0;z-index:38;background:linear-gradient(160deg,#0c8c4d,#16201a);color:#fff;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:34px;text-align:center;transition:.3s}
+.login.hide{opacity:0;pointer-events:none}
+.login .logo-xl{width:88px;height:88px;border-radius:26px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:46px;margin-bottom:22px;backdrop-filter:blur(6px)}
+.login h2{font-size:26px;font-weight:800;letter-spacing:-.02em}
+.login p{font-size:14px;opacity:.9;margin-top:10px;line-height:1.6}
+.login .btns{width:100%;margin-top:36px;display:flex;flex-direction:column;gap:11px}
+.login .lbtn{border:0;border-radius:14px;padding:16px;font-size:14.5px;font-weight:800;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:9px}
+.login .lbtn.kakao{background:#fee500;color:#191600}
+.login .lbtn.email{background:rgba(255,255,255,.16);color:#fff;backdrop-filter:blur(4px)}
+.login .lbtn.guest{background:transparent;color:rgba(255,255,255,.85);text-decoration:underline;padding:8px}
+.login .sso{font-size:11.5px;opacity:.7;margin-top:18px;line-height:1.5}
+
+/* 데모 리셋 / 상태 칩 (상단바) */
+.nav .toolbtn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 13px;font-size:12px;font-weight:700;color:var(--ink-2);display:flex;align-items:center;gap:6px}
+.nav .toolbtn:hover{border-color:var(--green);color:var(--green-d)}
+
+/* 회원 마이그레이션 */
+.upload{border:2px dashed var(--green);border-radius:18px;padding:28px 20px;text-align:center;background:var(--green-soft);margin-bottom:20px;cursor:pointer;transition:.15s}
+.upload:hover{background:#dcf3e6}
+.upload .ic{font-size:38px}
+.upload b{display:block;font-size:14.5px;margin-top:10px}
+.upload p{font-size:12px;color:var(--sub);margin-top:5px}
+.upload .done{color:var(--green-d);font-weight:800}
+.mig-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.tiny-note{font-size:11.5px;color:var(--sub);margin-top:12px;line-height:1.6}
+
+/* 빈 상태 (주문 등) */
+.adm-empty{text-align:center;color:var(--sub);font-size:13px;padding:40px 0}
+.adm-empty .big{font-size:40px;display:block;margin-bottom:12px}
+
+/* 신규주문 하이라이트 (관리자 주문관리에 고객 주문 유입) */
+@keyframes flashRow{0%{background:var(--green-soft)}100%{background:transparent}}
+tr.fresh{animation:flashRow 2.4s ease}
+.newbadge{font-size:10px;font-weight:800;color:#fff;background:var(--coral);padding:2px 7px;border-radius:6px;margin-left:6px}
