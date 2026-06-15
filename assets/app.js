@@ -64,7 +64,19 @@ function photoURL(name) {
   return `https://loremflickr.com/400/300/${kw}?lock=${lock + 1}`;
 }
 function emojiSVG(f) { return 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#fbeee0"/><text x="50" y="66" font-size="54" text-anchor="middle">${f}</text></svg>`); }
-function imgTagRaw(name, emoji, cls) { return `<img class="${cls}" src="${photoURL(name)}" alt="${name}" loading="lazy" onerror="this.onerror=null;this.src='${emojiSVG(emoji)}'">`; }
+/* 로컬 사진 매핑: assets/img/<slug>.jpg 가 있으면 우선 사용 (없으면 키워드 사진→이모지로 폴백) */
+const IMG_SLUG = {
+  '소불고기': 'bulgogi', '갈비찜': 'galbijjim', '제육볶음': 'jeyuk', '간장새우장': 'saewoojang',
+  '안동찜닭': 'jjimdak', '춘천식 닭갈비': 'dakgalbi', '돼지불고기': 'porkbulgogi', '돼지김치찜': 'kimchijjim',
+  'LA갈비': 'lagalbi', '잡채': 'japchae', '고등어무조림': 'godeungeo', '두부조림': 'dubujorim'
+};
+function imgFallback(img) { const s = img.getAttribute('data-fb'); if (!s) return; const a = s.split('|'); img.setAttribute('data-fb', a.slice(1).join('|')); img.src = a[0]; }
+function imgTagRaw(name, emoji, cls) {
+  const main = String(name).replace(/ SET$/, '');
+  const local = IMG_SLUG[main] ? 'assets/img/' + IMG_SLUG[main] + '.jpg' : null;
+  const fb = emojiSVG(emoji), chain = local ? [photoURL(name), fb] : [fb];
+  return `<img class="${cls}" src="${local || photoURL(name)}" alt="${main}" loading="lazy" data-fb="${chain.join('|')}" onerror="imgFallback(this)">`;
+}
 function imgTag(m, cls) { return imgTagRaw(m.n, m.f, cls); }
 
 function basePoolFor(y, m, day) { const dow = new Date(y, m, day).getDay(); if (dow === 0 || dow === 6) return null; return POOL[(y * 372 + m * 31 + day) % POOL.length]; }
