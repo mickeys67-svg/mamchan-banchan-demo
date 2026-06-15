@@ -54,10 +54,10 @@ function baseCapFor(y, m, day) { const s = (y * 13 + m * 7 + day * 17); const li
 function pickSides(seed) { const out = []; let i = seed % SIDES.length; while (out.length < 3) { const s = SIDES[i % SIDES.length]; if (!out.includes(s)) out.push(s); i++; } return out; }
 
 /* ============================================================ STORE */
-const SKEY = 'srb_demo_v4';
+const SKEY = 'srb_demo_v5';
 const Store = {
   d: null,
-  load() { try { this.d = JSON.parse(localStorage.getItem(SKEY)); } catch (e) { this.d = null; } if (!this.d || this.d.v !== 4) this.reset(); },
+  load() { try { this.d = JSON.parse(localStorage.getItem(SKEY)); } catch (e) { this.d = null; } if (!this.d || this.d.v !== 5) this.reset(); },
   save() { try { localStorage.setItem(SKEY, JSON.stringify(this.d)); } catch (e) {} },
   reset() { this.d = seed(); this.save(); },
 };
@@ -90,7 +90,7 @@ function seed() {
     { name: '정유아', plan: '주3회', next: '6/19', amt: 147000, st: 'pause' },
     { name: '최성수', plan: '주2회', next: '-', amt: 98000, st: 'cancel' },
   ];
-  return { v: 4, seq: 9822, menuOverrides: {}, dynOrdered: {}, orders, customers, subs, migrated: false, kakaoFriend: false, user: { loggedIn: false, guest: false, name: '게스트', grade: 'BASIC', points: 0, coupons: [] } };
+  return { v: 5, seq: 9822, menuOverrides: {}, dynOrdered: { '2026-5-19': 40 }, orders, customers, subs, migrated: false, kakaoFriend: false, user: { loggedIn: false, guest: false, name: '게스트', grade: 'BASIC', points: 0, coupons: [] } };
 }
 
 /* ---------- 메뉴(SET) 접근자 ---------- */
