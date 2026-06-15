@@ -223,3 +223,39 @@
 @keyframes flashRow{0%{background:var(--green-soft)}100%{background:transparent}}
 tr.fresh{animation:flashRow 2.4s ease}
 .newbadge{font-size:10px;font-weight:800;color:#fff;background:var(--coral);padding:2px 7px;border-radius:6px;margin-left:6px}
+
+/* ===================================================================
+   요구사항 충족 현황 (RFP 매핑)
+   =================================================================== */
+.req-wrap{max-width:980px;margin:0 auto}
+.req-hero{background:linear-gradient(135deg,#0c8c4d,#16201a);color:#fff;border-radius:var(--r-l);padding:28px 30px;margin-bottom:22px;position:relative;overflow:hidden}
+.req-hero .em{position:absolute;right:-8px;bottom:-18px;font-size:120px;opacity:.12}
+.req-hero h2{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.req-hero p{font-size:13.5px;opacity:.9;margin-top:8px;line-height:1.6;max-width:560px}
+.req-metrics{display:flex;gap:30px;margin-top:22px;flex-wrap:wrap}
+.req-metrics .rm b{font-size:30px;font-weight:800;display:block}
+.req-metrics .rm span{font-size:12px;opacity:.85}
+.req-bar{height:8px;background:rgba(255,255,255,.22);border-radius:5px;margin-top:18px;overflow:hidden;max-width:420px}
+.req-bar i{display:block;height:100%;background:linear-gradient(90deg,#28c074,#7fe9b3);border-radius:5px}
+
+.req-group{background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px 22px 10px;margin-bottom:16px}
+.req-group .gh{display:flex;align-items:center;gap:10px;padding:16px 0 8px;border-bottom:2px solid var(--line-2);margin-bottom:4px}
+.req-group .gh .gn{font-size:11px;font-weight:800;color:#fff;background:var(--green);padding:4px 10px;border-radius:8px}
+.req-group .gh b{font-size:15.5px;font-weight:800}
+.req-group .gh .gc{margin-left:auto;font-size:12px;color:var(--green-d);font-weight:800;background:var(--green-soft);padding:4px 11px;border-radius:999px}
+.req-item{display:flex;align-items:center;gap:14px;padding:14px 4px;border-bottom:1px solid var(--line-2)}
+.req-item:last-child{border-bottom:0}
+.req-item .ck{width:24px;height:24px;border-radius:50%;background:var(--green-soft);color:var(--green-d);display:grid;place-items:center;font-size:13px;font-weight:800;flex-shrink:0}
+.req-item .rt{flex:1;min-width:0}
+.req-item .rt b{font-size:13.5px;font-weight:600}
+.req-item .rt .loc{font-size:11.5px;color:var(--sub);margin-top:3px;display:flex;align-items:center;gap:5px}
+.req-item .rt .loc::before{content:'📍';font-size:10px}
+.req-go{border:1px solid var(--green);background:#fff;color:var(--green-d);font-size:12px;font-weight:800;padding:8px 14px;border-radius:10px;white-space:nowrap;transition:.15s}
+.req-go:hover{background:var(--green);color:#fff}
+@media(max-width:640px){.req-item .rt .loc{display:none}.req-go{padding:8px 11px}}
+.req-foot{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 22px;margin-top:4px}
+.req-foot h4{font-size:14px;font-weight:800;margin-bottom:12px}
+.req-foot .nf{display:flex;align-items:flex-start;gap:10px;font-size:12.5px;color:var(--ink-2);margin-bottom:10px;line-height:1.5}
+.req-foot .nf .i{color:var(--green-d);font-weight:800}
+.req-foot .pending{display:flex;align-items:flex-start;gap:10px;font-size:12.5px;color:var(--sub);margin-bottom:8px;line-height:1.5}
+.req-foot .pending .i{color:var(--amber)}

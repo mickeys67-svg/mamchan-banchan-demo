@@ -137,10 +137,68 @@ function renderUser() {
 function showView(v) {
   document.querySelectorAll('.view').forEach(e => e.classList.remove('on'));
   document.getElementById('view-' + v).classList.add('on');
-  document.getElementById('nv-customer').classList.toggle('on', v === 'customer');
-  document.getElementById('nv-admin').classList.toggle('on', v === 'admin');
+  ['customer', 'admin', 'req'].forEach(x => { const b = document.getElementById('nv-' + x); if (b) b.classList.toggle('on', v === x); });
   if (v === 'admin') buildAdmin();
+  if (v === 'req') buildRequirements();
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ============================================================
+   요구사항 충족 현황 (RFP 매핑) + 데모 바로가기
+   ============================================================ */
+const REQUIREMENTS = [
+  { g: '2-1', title: '사용자 화면 및 주문 기능', items: [
+    { t: '모바일 최적화 캘린더형 월간 메뉴표 UI 노출', loc: '고객 홈 · 달력', go: 'customer:home' },
+    { t: '메인 화면 내 당월 메뉴표 즉시 확인 기능', loc: '고객 홈 첫 화면', go: 'customer:home' },
+    { t: '캘린더 내 배송 희망 날짜 선택 기능', loc: '고객 홈 · 달력 셀 클릭', go: 'customer:home' },
+    { t: '선택된 날짜별 메인 메뉴 정보 확인 기능', loc: '주문 상세 시트', go: 'customer:home' },
+    { t: '일일 메뉴 1종 옵션 추가 선택 기능', loc: '주문 시트 · 옵션 선택', go: 'customer:home' },
+    { t: '날짜별 선택 항목 장바구니 담기 및 통합 결제', loc: '장바구니 · 통합 결제', go: 'customer:home' },
+  ] },
+  { g: '2-2', title: '관리자 메뉴 및 예약 제어 기능', items: [
+    { t: '월간 메뉴표 데이터 등록 및 수정 기능', loc: '관리자 · 메뉴·예약 제어', go: 'admin:menu' },
+    { t: '일자별 주문 가능 수량 및 마감일 설정 기능', loc: '관리자 · 메뉴 수정 모달', go: 'admin:menu' },
+    { t: '주문 마감 시간에 따른 프론트엔드 품절 처리', loc: '고객 달력 자동 품절 반영', go: 'admin:menu' },
+    { t: '기존 회원 정보 마이그레이션 연동 (엑셀 추출 가능)', loc: '관리자 · 회원 데이터', go: 'admin:members' },
+    { t: '기존 회원들의 구매 이력 데이터 연동 기능', loc: '관리자 · 회원 데이터/주문', go: 'admin:members' },
+  ] },
+  { g: '2-3', title: 'CRM 구축 및 마케팅 기능', items: [
+    { t: '누적 구매 데이터 기반 회원 등급 자동 분류', loc: '관리자 · CRM / 회원 데이터', go: 'admin:crm' },
+    { t: '회원 등급별 맞춤 쿠폰 자동 및 수동 발급', loc: '관리자 · CRM 쿠폰 발급', go: 'admin:crm' },
+    { t: '미접속 기간 기반 휴면 고객 자동 필터링', loc: '관리자 · CRM 휴면 세그먼트', go: 'admin:crm' },
+    { t: '고객 구매 패턴 기반 세분화 조회 기능', loc: '관리자 · CRM 세그먼트', go: 'admin:crm' },
+    { t: '재주문 주기 통계 데이터 추출 기능', loc: '관리자 · 대시보드 / CRM 추출', go: 'admin:dash' },
+  ] },
+  { g: '2-4', title: '카카오채널 연동 기능', items: [
+    { t: '익월 신규 월간 메뉴 오픈 시 카카오톡 알림 발송', loc: '관리자 · 알림톡 시나리오 ①', go: 'admin:kakao' },
+    { t: '당일 주문 마감 임박 시 카카오톡 알림 발송', loc: '관리자 · 알림톡 시나리오 ②', go: 'admin:kakao' },
+    { t: '타겟 고객 대상 쿠폰 번호 카카오톡 발송', loc: '관리자 · 알림톡 시나리오 ③', go: 'admin:kakao' },
+    { t: '휴면 고객 대상 재활성화 유도 카카오톡 발송', loc: '관리자 · 알림톡 시나리오 ④', go: 'admin:kakao' },
+  ] },
+];
+function buildRequirements() {
+  const total = REQUIREMENTS.reduce((s, g) => s + g.items.length, 0);
+  document.getElementById('reqTotal').textContent = total;
+  document.getElementById('reqDone').textContent = total;
+  document.getElementById('reqGroups').innerHTML = REQUIREMENTS.map(grp => `
+    <div class="req-group">
+      <div class="gh"><span class="gn">${grp.g}</span><b>${grp.title}</b><span class="gc">${grp.items.length}/${grp.items.length} 구현</span></div>
+      ${grp.items.map(it => `<div class="req-item"><div class="ck">✓</div><div class="rt"><b>${it.t}</b><div class="loc">${it.loc}</div></div><button class="req-go" onclick="goTo('${it.go}')">데모에서 보기 →</button></div>`).join('')}
+    </div>`).join('');
+}
+function goTo(target) {
+  const [v, sub] = target.split(':');
+  if (v === 'customer') {
+    const u = Store.d.user; if (!u.loggedIn && !u.guest) doGuest();
+    showView('customer');
+    const btn = document.querySelector('.tabbar button[data-tab="' + sub + '"]');
+    switchTab(sub, btn);
+    if (sub === 'home') toast('🗓️ 달력에서 날짜를 눌러 예약해 보세요');
+  } else if (v === 'admin') {
+    showView('admin');
+    const btn = document.querySelector('.anav[data-panel="' + sub + '"]');
+    if (btn) showPanel(sub, btn);
+  }
 }
 function switchTab(t, btn) { switchTabById(t); document.querySelectorAll('.tabbar button').forEach(b => b.classList.remove('on')); if (btn) btn.classList.add('on'); }
 function switchTabById(t) {
