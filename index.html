@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>맘찬 · 반찬 예약주문 — 리뉴얼 프로토타입</title>
+<title>셰프랑반찬 · 반찬 예약주문 — 리뉴얼 프로토타입</title>
 <meta name="description" content="카페24 기반 반찬 예약주문 사이트 리뉴얼 & CRM 프로토타입 데모">
-<meta property="og:title" content="맘찬 · 반찬 예약주문 리뉴얼 데모">
+<meta property="og:title" content="셰프랑반찬 · 반찬 예약주문 리뉴얼 데모">
 <meta property="og:description" content="모바일 캘린더형 예약주문 + 정기구독 + CRM + 카카오 알림톡 통합 데모">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍱</text></svg>">
 <link rel="stylesheet" href="assets/style.css">
@@ -14,7 +14,7 @@
 <body>
 
   <nav class="nav">
-    <div class="brand"><span class="logo">🍱</span><div>맘찬<span class="sub"> · 반찬 예약주문 리뉴얼 데모</span></div></div>
+    <div class="brand"><span class="logo">🍱</span><div>셰프랑반찬<span class="sub"> · 반찬 예약주문 리뉴얼 데모</span></div></div>
     <div class="seg-switch">
       <button id="nv-customer" class="on" onclick="showView('customer')">📱 고객 화면</button>
       <button id="nv-admin" onclick="showView('admin')">🖥️ 관리자 · CRM</button>
@@ -22,7 +22,7 @@
     </div>
     <div style="display:flex;align-items:center;gap:12px">
       <button class="toolbtn" onclick="resetDemo()" title="데모 데이터 초기화">🔄 초기화</button>
-      <div class="ghost"><span class="live-dot"></span> v3 · 실동작 데모</div>
+      <div class="ghost"><span class="live-dot"></span> v4 · RFP v2.0</div>
     </div>
   </nav>
 
@@ -49,14 +49,14 @@
             <!-- ===== 로그인 / SSO ===== -->
             <div class="login" id="login">
               <div class="logo-xl">🍱</div>
-              <h2>맘찬</h2>
+              <h2>셰프랑반찬</h2>
               <p>매일 아침 직접 만든 집반찬<br>달력에서 골라 예약 배송 받으세요</p>
               <div class="btns">
                 <button class="lbtn kakao" onclick="doLogin('kakao')">💬 카카오로 3초 시작하기</button>
                 <button class="lbtn email" onclick="doLogin('email')">📧 이메일로 로그인</button>
                 <button class="lbtn guest" onclick="doGuest()">로그인 없이 둘러보기</button>
               </div>
-              <div class="sso">기존 맘찬 계정으로 SSO 로그인 · 토큰 처리<br>(데모: 어느 버튼이든 김민은 GOLD 회원으로 로그인)</div>
+              <div class="sso">기존 셰프랑반찬 계정으로 SSO 로그인 · 토큰 처리<br>(데모: 어느 버튼이든 김민은 GOLD 회원으로 로그인)</div>
             </div>
 
             <!-- ===== 홈 ===== -->
@@ -70,6 +70,7 @@
               </div>
               <div class="scroll">
                 <div class="promo"><span class="em">🎁</span><small>이번주 한정 혜택</small><b>신규가입 5,000원 쿠폰</b><p>장바구니에서 <b>MOM5000</b> 입력 시 즉시 할인</p></div>
+                <div class="kkfriend"><span class="em">💛</span><div class="t"><b>카카오채널 친구추가</b><p>신메뉴·마감·쿠폰 알림을 카톡으로 받기</p></div><button onclick="addKakaoFriend()">친구추가</button></div>
                 <div class="reorder"><div class="em">🔁</div><div class="t"><b>지난주 그대로 다시 받기</b><p>제육볶음 외 1건 · 한 번에 담기</p></div><button onclick="reorder()">재주문</button></div>
                 <div class="sec"><div class="sec-h"><b><span class="ic">🔥</span> 이번달 인기 반찬</b><span class="more">더보기</span></div></div>
                 <div class="hscroll" id="popular"></div>
@@ -90,7 +91,7 @@
             <div class="pscreen" id="ps-sub">
               <div class="simple-head"><h1>🔁 정기구독</h1><p>매주 자동으로 받는 우리집 반찬</p></div>
               <div class="scroll">
-                <div class="sub-hero"><span class="em">🍱</span><small>맘찬 정기구독</small><h2>구독하면<br>매번 10% 더 싸게</h2><p>원하는 요일·횟수로 자동 주문, 언제든 일시정지·해지 가능해요.</p></div>
+                <div class="sub-hero"><span class="em">🍱</span><small>셰프랑반찬 정기구독</small><h2>구독하면<br>매번 10% 더 싸게</h2><p>원하는 요일·횟수로 자동 주문, 언제든 일시정지·해지 가능해요.</p></div>
                 <div class="sub-benefits">
                   <div class="b"><div class="ic">💸</div><b>상시 10% 할인</b><span>구독 전용가</span></div>
                   <div class="b"><div class="ic">🚚</div><b>배송비 무료</b><span>전 구독 적용</span></div>
@@ -151,6 +152,7 @@
                 <div class="dish-hero"><span id="shIco">🍲</span><div class="fav">🤍</div></div>
                 <div class="sdate" id="shDate"></div><h3 id="shTitle"></h3>
                 <div class="tags" id="shTags"></div><div class="sdesc" id="shDesc"></div>
+                <div class="setcomp" id="shSet"></div>
                 <div class="price-row" id="shPrice"></div>
                 <div class="opt-h">옵션 추가 <span>1종 선택 가능</span></div>
                 <div id="shOpts"></div>
@@ -193,7 +195,7 @@
     <section id="view-admin" class="view">
       <div class="admin">
         <aside class="aside">
-          <div class="alogo"><span class="l">🍱</span> 맘찬 관리자</div>
+          <div class="alogo"><span class="l">🍱</span> 셰프랑반찬 관리자</div>
           <button class="anav on" data-panel="dash" onclick="showPanel('dash',this)"><span class="i">📊</span> 대시보드</button>
           <button class="anav" data-panel="orders" onclick="showPanel('orders',this)"><span class="i">🧾</span> 주문 관리</button>
           <button class="anav" data-panel="menu" onclick="showPanel('menu',this)"><span class="i">🗓️</span> 메뉴·예약 제어</button>
@@ -202,7 +204,7 @@
           <button class="anav" data-panel="crm" onclick="showPanel('crm',this)"><span class="i">👥</span> CRM 세분화</button>
           <button class="anav" data-panel="kakao" onclick="showPanel('kakao',this)"><span class="i">💬</span> 카카오 알림톡</button>
           <div class="spacer"></div>
-          <div class="meadm"><div class="av">관</div><div><b style="color:#fff">맘찬 운영팀</b><div style="color:#9db3a6;font-size:11px">마케팅 담당</div></div></div>
+          <div class="meadm"><div class="av">관</div><div><b style="color:#fff">셰프랑반찬 운영팀</b><div style="color:#9db3a6;font-size:11px">마케팅 담당</div></div></div>
         </aside>
 
         <div class="amain">
@@ -264,6 +266,7 @@
                 <button data-seg="dormant" onclick="filterCrm('dormant',this)">휴면 고객 <span class="ct"></span></button>
                 <button data-seg="atrisk" onclick="filterCrm('atrisk',this)">이탈 위험 <span class="ct"></span></button>
                 <button data-seg="new" onclick="filterCrm('new',this)">신규 <span class="ct"></span></button>
+                <button data-seg="bday" onclick="filterCrm('bday',this)">🎂 생일 <span class="ct"></span></button>
               </div>
               <table><thead><tr><th>회원</th><th>등급</th><th>누적구매</th><th>주문수</th><th>최근주문</th><th>상태</th><th></th></tr></thead><tbody id="crmRows"></tbody></table>
               <p style="font-size:12px;color:var(--sub);margin-top:12px">· 행을 클릭하면 고객 상세 이력을 볼 수 있습니다. · 세그먼트는 카카오 알림톡 발송 대상과 연동됩니다.</p>
@@ -272,7 +275,7 @@
 
           <!-- 카카오 -->
           <div class="apanel" id="panel-kakao">
-            <div class="ahead"><div><h2>카카오 알림톡</h2><p>CRM 세그먼트 기반 자동·수동 발송 + 캠페인 성과</p></div><div class="date-pill">💬 발신프로필 @맘찬 연동됨</div></div>
+            <div class="ahead"><div><h2>카카오 알림톡</h2><p>CRM 세그먼트 기반 자동·수동 발송 + 캠페인 성과</p></div><div class="date-pill">💬 발신프로필 @셰프랑반찬 연동됨</div></div>
             <div class="card"><div id="kkList"></div><p style="font-size:12px;color:var(--sub);margin-top:6px">· 발송 결과는 로그로 기록되며 실패 건은 자동 재시도됩니다.</p></div>
           </div>
 
@@ -287,7 +290,7 @@
         <div class="req-hero">
           <span class="em">✅</span>
           <h2>요구사항 충족 현황</h2>
-          <p>RFP 상세 기능 요구사항(2-1 ~ 2-4) 전 항목을 데모로 구현했습니다. 각 항목의 <b>데모에서 보기</b>를 누르면 해당 기능 화면으로 바로 이동합니다.</p>
+          <p>RFP v2.0 기능 요구사항(메뉴표 UX · 주문/객단가 · CRM · 카카오 · 관리자 · 데이터분석)을 모두 데모로 구현했습니다. 각 항목의 <b>데모에서 보기</b>를 누르면 해당 화면으로 바로 이동합니다.</p>
           <div class="req-metrics">
             <div class="rm"><b id="reqTotal">0</b><span>전체 요구 항목</span></div>
             <div class="rm"><b id="reqDone">0</b><span>구현 완료</span></div>
@@ -323,8 +326,8 @@
     <div class="modal-h"><b>월간 메뉴 등록</b><button class="x" onclick="closeModal('modalRegister')">✕</button></div>
     <div class="modal-b">
       <div style="display:flex;gap:12px"><div class="fld" style="flex:1"><label>배송일 (6월)</label><input id="regDay" type="number" min="1" max="30" value="25"></div><div class="fld" style="width:90px"><label>이모지</label><input id="regEmoji" value="🍱"></div></div>
-      <div class="fld"><label>메뉴명</label><input id="regName" placeholder="예: 매콤 닭볶음탕"></div>
-      <div style="display:flex;gap:12px"><div class="fld" style="flex:1"><label>판매가</label><input id="regPrice" type="number" value="10800"></div><div class="fld" style="flex:1"><label>정가</label><input id="regWas" type="number" value="12000"></div></div>
+      <div class="fld"><label>메인반찬명</label><input id="regName" placeholder="예: 매콤 닭볶음탕"></div>
+      <div style="display:flex;gap:12px"><div class="fld" style="flex:1"><label>국·찌개</label><input id="regSoup" value="된장찌개"></div><div class="fld" style="flex:1"><label>SET 회원가</label><input value="22,000원 (고정)" disabled></div></div>
       <div style="display:flex;gap:12px"><div class="fld" style="flex:1"><label>주문 가능 수량</label><input id="regLimit" type="number" value="80"></div><div class="fld" style="flex:1"><label>마감시간</label><select id="regCutoff"><option>전일 18:00</option><option>전일 20:00</option><option>당일 09:00</option></select></div></div>
     </div>
     <div class="modal-f"><button class="btn btn-ghost" onclick="closeModal('modalRegister')">취소</button><button class="btn btn-pri" onclick="saveRegister()">등록 (달력 반영)</button></div>

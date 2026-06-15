@@ -259,3 +259,27 @@ tr.fresh{animation:flashRow 2.4s ease}
 .req-foot .nf .i{color:var(--green-d);font-weight:800}
 .req-foot .pending{display:flex;align-items:flex-start;gap:10px;font-size:12.5px;color:var(--sub);margin-bottom:8px;line-height:1.5}
 .req-foot .pending .i{color:var(--amber)}
+
+/* ===================================================================
+   RFP v2.0 : SET 구성 · 옵션 다중선택 · 카카오 친구추가
+   =================================================================== */
+.setcomp{background:#faf7f0;border:1px solid var(--line-2);border-radius:14px;padding:13px 16px;margin-bottom:16px}
+.setcomp .sc{display:flex;gap:10px;font-size:12.5px;padding:5px 0;align-items:flex-start}
+.setcomp .sc+.sc{border-top:1px solid #efe9dc}
+.setcomp .sc .k{color:var(--green-d);font-weight:800;width:62px;flex-shrink:0}
+.setcomp .sc .v{font-weight:600;color:var(--ink-2)}
+.opt .chk{width:22px;height:22px;border-radius:7px;border:2px solid #cdd6cf;display:grid;place-items:center;flex-shrink:0;transition:.15s;font-size:13px;color:transparent}
+.opt.sel .chk{background:var(--green);border-color:var(--green);color:#fff}
+.opt .od{font-size:11px;color:var(--sub);margin-top:2px}
+.opt-h .badge-up{font-size:10.5px;font-weight:800;color:var(--coral);background:var(--coral-soft);padding:3px 8px;border-radius:7px}
+
+.kkfriend{margin:14px 16px 0;background:#fee500;border-radius:var(--r-m);padding:13px 15px;display:flex;align-items:center;gap:12px;box-shadow:0 6px 16px rgba(254,229,0,.35)}
+.kkfriend .em{font-size:25px}
+.kkfriend .t{flex:1}
+.kkfriend .t b{font-size:13.5px;color:#3c2a1e}
+.kkfriend .t p{font-size:11px;color:#7a5a32;margin-top:2px}
+.kkfriend button{border:0;background:#3c2a1e;color:#fee500;font-weight:800;font-size:12px;padding:10px 14px;border-radius:11px;white-space:nowrap}
+
+.order-steps{display:flex;gap:4px;margin:10px 16px 0}
+.order-steps .os{flex:1;text-align:center;font-size:10px;font-weight:700;color:var(--faint);background:#fff;border:1px solid var(--line-2);border-radius:9px;padding:7px 2px}
+.order-steps .os b{color:var(--green-d)}
