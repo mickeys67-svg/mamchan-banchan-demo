@@ -264,9 +264,13 @@ function closeOverlay(a, b) { document.getElementById(a).classList.remove('on');
 document.addEventListener('keydown', e => { if (e.key !== 'Escape') return; closeSheet(); closeCart(); closeDrawer(); ['modalMenu', 'modalRegister', 'modalCoupon', 'modalKakao'].forEach(closeModal); });
 
 /* ============================================================ 인기/내예약/마이 */
+const POP_RANK = [[2, 1284], [7, 1102], [0, 987], [8, 856], [10, 742], [4, 690], [16, 640], [6, 590], [12, 540], [3, 500], [1, 470], [9, 430]];
+let popExpanded = false;
+function morePopular() { popExpanded = !popExpanded; buildPopular(); if (!popExpanded) document.getElementById('popular').scrollLeft = 0; toast(popExpanded ? '인기 SET 전체를 펼쳤어요' : '접었어요'); }
 function buildPopular() {
-  const ranks = [{ ...POOL[2], sold: 1284 }, { ...POOL[7], sold: 1102 }, { ...POOL[0], sold: 987 }, { ...POOL[8], sold: 856 }, { ...POOL[10], sold: 742 }];
-  document.getElementById('popular').innerHTML = ranks.map((m, i) => `<div class="pcard" onclick="pcardClick(event)"><span class="rk">BEST ${i + 1}</span>${imgTag(m, 'pimg')}<b>${m.n} SET</b><div class="pr">${WON(SET_PRICE)}</div><div class="sold">이번달 ${m.sold.toLocaleString()}개 판매</div></div>`).join('');
+  const n = popExpanded ? POP_RANK.length : 5;
+  document.getElementById('popular').innerHTML = POP_RANK.slice(0, n).map(([idx, sold], i) => { const m = POOL[idx]; return `<div class="pcard" onclick="pcardClick(event)"><span class="rk">BEST ${i + 1}</span>${imgTag(m, 'pimg')}<b>${m.n} SET</b><div class="pr">${WON(SET_PRICE)}</div><div class="sold">이번달 ${sold.toLocaleString()}개 판매</div></div>`; }).join('');
+  const mb = document.getElementById('popMore'); if (mb) mb.textContent = popExpanded ? '접기' : '더보기';
 }
 /* 가로 스크롤: 마우스 드래그 + 휠→가로 변환 (데스크톱 대응) */
 function pcardClick(e) { if (window._dragged) return; toast('인기 SET은 달력에서 예약일을 선택하세요 🗓️'); }
