@@ -110,7 +110,10 @@ button{font-family:inherit;cursor:pointer}
 .sec-h .more{font-size:12px;color:var(--sub);font-weight:600}
 
 /* horizontal popular */
-.hscroll{display:flex;gap:11px;overflow-x:auto;padding:2px 16px 4px;scrollbar-width:none;margin:0 -16px}
+.hscroll{display:flex;gap:11px;overflow-x:auto;padding:2px 16px 4px;scrollbar-width:none;margin:0 -16px;cursor:grab;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.hscroll.grabbing{cursor:grabbing}
+.hscroll.grabbing .pcard{pointer-events:none}
+.pcard{scroll-snap-align:start}
 .hscroll::-webkit-scrollbar{display:none}
 .pcard{flex:0 0 128px;background:#fff;border-radius:16px;padding:13px;box-shadow:var(--shadow-s);border:1px solid var(--line-2);transition:.15s}
 .pcard:active{transform:scale(.97)}

@@ -266,7 +266,18 @@ document.addEventListener('keydown', e => { if (e.key !== 'Escape') return; clos
 /* ============================================================ 인기/내예약/마이 */
 function buildPopular() {
   const ranks = [{ ...POOL[2], sold: 1284 }, { ...POOL[7], sold: 1102 }, { ...POOL[0], sold: 987 }, { ...POOL[8], sold: 856 }, { ...POOL[10], sold: 742 }];
-  document.getElementById('popular').innerHTML = ranks.map((m, i) => `<div class="pcard" onclick="toast('인기 SET은 달력에서 예약일을 선택하세요 🗓️')"><span class="rk">BEST ${i + 1}</span>${imgTag(m, 'pimg')}<b>${m.n} SET</b><div class="pr">${WON(SET_PRICE)}</div><div class="sold">이번달 ${m.sold.toLocaleString()}개 판매</div></div>`).join('');
+  document.getElementById('popular').innerHTML = ranks.map((m, i) => `<div class="pcard" onclick="pcardClick(event)"><span class="rk">BEST ${i + 1}</span>${imgTag(m, 'pimg')}<b>${m.n} SET</b><div class="pr">${WON(SET_PRICE)}</div><div class="sold">이번달 ${m.sold.toLocaleString()}개 판매</div></div>`).join('');
+}
+/* 가로 스크롤: 마우스 드래그 + 휠→가로 변환 (데스크톱 대응) */
+function pcardClick(e) { if (window._dragged) return; toast('인기 SET은 달력에서 예약일을 선택하세요 🗓️'); }
+function enableHScroll(el) {
+  if (!el || el._hs) return; el._hs = true;
+  let down = false, startX = 0, startL = 0, moved = 0;
+  el.addEventListener('pointerdown', e => { down = true; moved = 0; window._dragged = false; startX = e.clientX; startL = el.scrollLeft; el.classList.add('grabbing'); });
+  el.addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - startX; moved += Math.abs(dx); el.scrollLeft = startL - dx; if (Math.abs(dx) > 4) window._dragged = true; });
+  const end = () => { down = false; el.classList.remove('grabbing'); setTimeout(() => { window._dragged = false; }, 30); };
+  el.addEventListener('pointerup', end); el.addEventListener('pointerleave', end);
+  el.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { el.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 }
 let orderTab = 'upcoming';
 const STEP_OF = { recv: 1, prep: 2, ship: 3, done: 4 };
@@ -453,4 +464,5 @@ Store.load();
 renderUser();
 buildCal();
 buildPopular();
+enableHScroll(document.getElementById('popular'));
 buildAdmin();
